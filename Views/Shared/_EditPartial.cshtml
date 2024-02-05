@@ -1,0 +1,63 @@
+﻿<!-- _EditPartial.cshtml -->
+@model CustomPageApp.ViewModels.RegisterVm
+@section Scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+}
+<style>
+    .update{
+    display: flex;
+    justify-content: end;
+    margin-top: 1rem;
+    }
+</style>
+<div id="editModal" class="modal fade" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Edit Details</h5>
+                <button onclick="CloseModalPopup();" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Your edit form goes here -->
+                <form asp-action="Register" asp-route-id="@Model.Id" method="post">
+                    <!-- Edit form fields go here -->
+                    <div class="form-group">
+                        <label asp-for="Name"></label>
+                        <input asp-for="Name" class="form-control" />
+                        @Html.ValidationMessageFor(m => m.Name, "", new { @class = "field-validation-error" })
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Email"></label>
+                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "field-validation-error" })
+                        <input asp-for="Email" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="Address"></label>
+                        <input asp-for="Address" class="form-control" />
+                        @Html.ValidationMessageFor(m => m.Address, "", new { @class = "field-validation-error" })
+                    </div>
+                    <div class="update">
+                        <button type="submit" class="btn btn-warning">Update</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function CloseModalPopup() {
+        debugger;
+        $("#editModal").modal('hide');
+    }
+
+</script>
+
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

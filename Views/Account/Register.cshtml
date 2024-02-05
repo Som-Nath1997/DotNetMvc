@@ -1,0 +1,175 @@
+﻿ @using CustomPageApp.ViewModels;
+@model RegisterVm
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/dist/jquery.unobtrusive-ajax.min.js"></script>
+    <script>
+        function Success(data) {
+            debugger
+            alert("Student Created  succeeded",data);
+            window.location.href = '/Account/ShowData'
+        }
+
+        function Failure(xhr, status, error) {
+            debugger
+            alert(xhr.responseText)
+            console.error("Ajax request failed:", status, error);
+        }
+        
+    </script>
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+    </style>
+}
+<div id="divloading" class="text-center" style="display: none;">
+    <img src="./images/Gear.gif" alt="Loading..." />
+</div>
+
+
+
+<div class="row d-flex align-items-center justify-content-center ">
+<div class="col-md-4">
+    <h2 class="text-center text-info">Register</h2>
+
+        <form asp-controller="Account" asp-action="Register" method="post"
+      data-ajax="true"
+      data-ajax-method="POST"
+      data-ajax-mode="replace"
+      data-ajax-update="#content"
+       
+      data-ajax-success="Success"
+      data-ajax-failure="Failure">
+
+            <div class="form-group">
+                <h4>@Html.LabelFor(m => m.Name)</h4>
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "Name" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "field-validation-error" })
+            </div>
+
+            <div class="form-group">
+                <h4>@Html.LabelFor(m => m.Email)</h4>
+                @Html.TextBoxFor(m => m.Email, new { @class = "form-control", id = "Email" })
+                @Html.ValidationMessageFor(m => m.Email,"", new { @class = "field-validation-error" })
+            </div>
+
+            <div class="form-group">
+                <h4>@Html.LabelFor(m => m.Password)</h4>
+                @Html.PasswordFor(m => m.Password, new { @class = "form-control", id = "Password" })
+                @Html.ValidationMessageFor(m => m.Password,"", new { @class = "field-validation-error" })
+            </div>
+
+            <div class="form-group">
+                <h4>@Html.LabelFor(m => m.ConfirmPassword)</h4>
+                @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", id = "ConfirmPassword" })
+                @Html.ValidationMessageFor(m => m.ConfirmPassword, "", new { @class = "field-validation-error" })
+            </div>
+
+            <div class="form-group">
+                <h4>@Html.LabelFor(m => m.Address)</h4>
+                @Html.TextAreaFor(m => m.Address, new { @class = "form-control", id = "Address" })
+                @Html.ValidationMessageFor(m => m.Address, "", new { @class = "field-validation-error" })
+            </div>
+
+            <div class="row">
+                <div class="col-8">
+                    <a asp-action="Login" class="text-decoration-none float-start mt-2"> Have An Account</a>
+                </div>
+                <div class="col-8">
+                    <input type="submit" value="Create" class="btn btn-success fload-end" />
+                </div>
+
+            </div>
+
+      </form>
+
+   </div>
+   </div>
+@{
+    await Html.RenderPartialAsync("_ValidationScriptsPartial");
+}
+   
+
+  @*@<div class="row d-flex align-items-center justify-content-center ">
+    <div class="col-md-4">
+        <h2 class="text-center text-info">Register</h2>
+        <form asp-action="Register" method="Post">
+            <div asp-validation-summary="ModelOnly">
+            </div>
+            <div class="mb-1">
+                <label asp-for="Name"></label>
+                <input class="form-control" asp-for="Name" />
+                <span class="text-danger" asp-validation-for="Name"> </span>
+            </div>
+            <div class="mb-1">
+                <label asp-for="Email"></label>
+                <input class="form-control" asp-for="Email" />
+                <span class="text-danger" asp-validation-for="Email"> </span>
+            </div>
+            <div class="mb-1">
+                <label asp-for="Password"></label>
+                <input class="form-control" asp-for="Password" />
+                <span class="text-danger" asp-validation-for="Password"> </span>
+            </div>
+            <div class="mb-1">
+                <label asp-for="ConfirmPassword"></label>
+                <input class="form-control" asp-for="ConfirmPassword" />
+                <span class="text-danger" asp-validation-for="ConfirmPassword"> </span>
+            </div>
+            <div class="mb-1">
+                <label asp-for="Address"></label>
+                <textarea class="form-control" asp-for="Address"></textarea>
+                <span class="text-danger" asp-validation-for="Address"> </span>
+            </div>
+            <div class="row">
+                <div class="col-8">
+                    <a asp-action="Login" class="text-decoration-none float-start mt-2"> Have An Account</a>
+                </div>
+                <div class="col-8">
+                    <input type="submit" value="Create" class="btn btn-primary btn-sm fload-end" />
+                </div>
+
+            </div>
+        </form>
+    </div>
+
+</div>
+@section  Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+
+<script type="text/javascript">
+    function submitStudent() {
+        var data = $("#studenteForm").serialize();
+        console.log(data);
+        alert(data);
+        $.ajax({
+            type: 'POST',
+            url: '/Home/CreateStudent',
+            contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+            data: data,
+            success: function (result) {
+                alert('Successfully received Data ');
+                console.log(result);
+            },
+            error: function () {
+                alert('Failed to receive the Data');
+                console.log('Failed ');
+            }
+        })
+    }
+
+</script>
+*@

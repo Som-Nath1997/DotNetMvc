@@ -1,0 +1,64 @@
+﻿@model IEnumerable<CustomPageApp.ViewModels.RegisterVm>
+@{
+    ViewData["Title"] = "ShowData";
+}
+
+<div class="container" id="someContainer">
+    <div class="row">
+        <table class="table">
+            <thead class="bg-dark text-light text-center">
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Action</th> <!-- Added Action column -->
+                </tr>
+            </thead>
+            <tbody id="tblshow" class="text-center">
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            <a class="btn btn-info btnEdit" data-id="@item.Id">Edit</a>
+                            <a class="btn btn-danger" asp-action="DeleteStudent" asp-route-id="@item.Id">Delete</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Include the partial view -->
+<div id="editPartialContainer">
+
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    // Handle click event on edit button
+    $('.btnEdit').click(function () {
+        // Fetch the ID from the data attribute
+        var id = $(this).data('id');
+
+        // Load the partial view and display it in a container
+        $.get('/Account/EditPartial/' + id, function (data) {
+            $('#editPartialContainer').html(data);
+            $('#editModal').modal('show');
+        });
+    });
+
+</script>
